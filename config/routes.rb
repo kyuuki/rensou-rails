@@ -1,5 +1,19 @@
+# -*- coding: utf-8 -*-
 Rails.application.routes.draw do
   root to: 'welcome#index'
+
+  # iOS 版 API に合わせるためちょっといびつ
+  post 'user' => 'users#create'
+  put 'user' => 'users#update'  # 通知のために準備
+
+  get 'rensou' => 'rensous#latest'
+  post 'rensou' => 'rensous#create'
+
+  post 'rensous/:id/like' => 'rensous#like'
+  delete 'rensous/:id/like' => 'rensous#dislike'
+
+  get 'rensous/ranking' => 'rensous#ranking'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

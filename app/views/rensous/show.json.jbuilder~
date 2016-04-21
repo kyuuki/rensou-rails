@@ -1,0 +1,2 @@
+json.extract! @rensou, :id, :keyword, :old_keyword
+
