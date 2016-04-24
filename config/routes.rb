@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 Rails.application.routes.draw do
+  # 管理画面
   root to: 'welcome#index'
+  resources :apps
+  resources :rensous
 
   # iOS 版 API に合わせるためちょっといびつ
   post 'user' => 'users#create'

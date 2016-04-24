@@ -1,0 +1,19 @@
+section.content-header
+  h2 アプリ詳細
+
+section.content
+  p#notice = notice
+
+  p
+    strong ID:
+    = @app.id
+  p
+    strong Name:
+    = @app.name
+  p
+    strong Key:
+    = @app.key
+
+  = link_to 'Edit', edit_app_path(@app)
+  '|
+  = link_to 'Back', apps_path

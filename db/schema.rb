@@ -11,24 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419182655) do
+ActiveRecord::Schema.define(version: 20160424174939) do
+
+  create_table "apps", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "rensous", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "keyword",                 null: false
-    t.string   "old_keyword",             null: false
-    t.integer  "favorite",    default: 0, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "keyword",                       null: false
+    t.string   "old_keyword",                   null: false
+    t.integer  "favorite",       default: 0,    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "old_identifier",                null: false
+    t.integer  "app_id",         default: 1,    null: false
+    t.string   "lang",           default: "ja", null: false
   end
 
+  add_index "rensous", ["app_id"], name: "index_rensous_on_app_id"
+  add_index "rensous", ["old_identifier"], name: "index_rensous_on_old_identifier", unique: true
   add_index "rensous", ["user_id"], name: "index_rensous_on_user_id"
 
   create_table "users", force: :cascade do |t|
-    t.integer  "device_type",        null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "device_type",                    null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "registration_token"
+    t.integer  "app_id",             default: 1, null: false
   end
+
+  add_index "users", ["app_id"], name: "index_users_on_app_id"
 
 end

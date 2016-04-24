@@ -1,14 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RensouRails</title>
+  <title>連想げーむ</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.min.css">
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="skin-blue sidebar-mini" role="document">
+<div class="wrapper">
+  <header class="main-header">
+    <nav class="navbar navbar-static-top" role="navigation">
+       <a class="sidebar-toggle" href="#" data-toggle="offcanvas" role="button"></a>
 
-<%= yield %>
+       <div class="navbar-custom-menu">
+         <ul class="nav navbar-nav">
+         </ul>
+       </div>
+    </nav>
+  </header>
 
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">メニュー</li>
+        <li><%= link_to "アプリ", apps_path %></li>
+        <li><%= link_to "ユーザー", root_path %></li>
+        <li><%= link_to "連想", rensous_path %></li>
+      </ul>
+    </section>
+  </aside>
+
+  <div class="content-wrapper">
+    <%= yield %>
+  </div>
+
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/js/app.min.js"></script>
 </body>
 </html>

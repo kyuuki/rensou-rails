@@ -1,0 +1,19 @@
+table.table.table-striped.table-bordered.table-hover
+  thead
+
+  tbody
+    - @rensous.each do |rensou|
+      tr
+         td
+           = rensou.id
+         td
+           = rensou.user_id
+         td
+           = rensou.keyword
+         td
+           = rensou.old_keyword
+         td
+           = rensou.favorite
+         td
+           = rensou.created_at
+

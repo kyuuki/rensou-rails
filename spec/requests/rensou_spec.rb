@@ -3,8 +3,8 @@ require "rails_helper"
 
 describe "GET /rensou.json" do
   it "正常系" do
-    rensou = FactoryGirl.create(:rensou, keyword: "古い")
-    rensou = FactoryGirl.create(:rensou, keyword: "最新")
+    rensou = FactoryGirl.create(:rensou, keyword: "古い", old_identifier: 1)
+    rensou = FactoryGirl.create(:rensou, keyword: "最新", old_identifier: 2)
 
     get "/rensou.json"
     expect(response).to be_success
@@ -18,9 +18,9 @@ end
 
 describe "POST /rensou.json" do
   it "正常系" do
-    rensou = FactoryGirl.create(:rensou, id: 1)
+    rensou = FactoryGirl.create(:rensou, id: 2, old_identifier: 1)
 
-    params = { user_id: 1, keyword: "投稿", theme_id: 1 }
+    params = { user_id: 1, keyword: "投稿", theme_id: 2 }
     headers = { "CONTENT_TYPE" => "application/json" }
 
     post "/rensou.json", params.to_json, headers
@@ -67,9 +67,9 @@ end
 
 describe "GET /ranking" do
   it "正常系" do
-    rensou = FactoryGirl.create(:rensou, keyword: "最下位", favorite: 1)
-    rensou = FactoryGirl.create(:rensou, keyword: "最上位", favorite: 3)
-    rensou = FactoryGirl.create(:rensou, keyword: "真ん中", favorite: 2)
+    rensou = FactoryGirl.create(:rensou, keyword: "最下位", favorite: 1, old_identifier: 1)
+    rensou = FactoryGirl.create(:rensou, keyword: "最上位", favorite: 3, old_identifier: 2)
+    rensou = FactoryGirl.create(:rensou, keyword: "真ん中", favorite: 2, old_identifier: 3)
 
     get "/rensous/ranking"
     expect(response).to be_success
