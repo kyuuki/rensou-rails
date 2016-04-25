@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 Rails.application.routes.draw do
-  # 管理画面
-  root to: 'welcome#index'
-  resources :apps
-  resources :rensous
-
   # iOS 版 API に合わせるためちょっといびつ
+  # rensous 系が被っているので、管理画面より前に置く必要がある
   post 'user' => 'users#create'
   put 'user' => 'users#update'  # 通知のために準備
 
@@ -16,6 +12,11 @@ Rails.application.routes.draw do
   delete 'rensous/:id/like' => 'rensous#dislike'
 
   get 'rensous/ranking' => 'rensous#ranking'
+
+  # 管理画面
+  root to: 'welcome#index'
+  resources :apps
+  resources :rensous
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
