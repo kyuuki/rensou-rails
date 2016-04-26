@@ -2,39 +2,34 @@
 class RensousController < ApplicationController
   # 管理画面
   def index
-    app_id = params[:app_id]
-    lang = params[:lang]
-
-    relation = Rensou.all  # 最初の Relation はこれでいい？
-    relation = relation.where(app_id: app_id) if not app_id.nil?
-    relation = relation.where(lang: lang) if not lang.nil?
-
-    @q = relation.search(params[:q])
+    @q = Rensou.search(params[:q])
     @rensous = @q.result.order(created_at: :desc).page params[:page]
   end
 
   # API
   def latest
-    app_id = params[:app_id]
-    lang = params[:lang]
+    app_id = params[:app_id] || 1
+    lang = params[:lang] || "ja"
 
     relation = Rensou.all  # 最初の Relation はこれでいい？
-    relation = relation.where(app_id: app_id) if not app_id.nil?
-    relation = relation.where(lang: lang) if not lang.nil?
+    relation = relation.where(app_id: app_id)
+    relation = relation.where(lang: lang)
     @rensou = relation.last
 
-    # TODO: 初期データ投入で対応
-    # TODO: そもそも変更してからテストしてない
+    # 初期データ投入
+    # seeds.rb で対応しようとも思ったが、全ての言語に対応しきれないので初回に入れることにする
     if @rensou.nil?
-      @rensou = Rensou.create(user_id: 0, keyword: "バナナ", old_identifier: 0, old_keyword: "マジカル", favorite: 0, app_id: app_id, lang: lang)
+      min_old_identifier = Rensou.minimum(:old_identifier)
+      logger.fatal "Register initial data. min_old_identifier = #{min_old_identifier}"
+      @rensou = Rensou.create(user_id: 0, keyword: "Start!", old_identifier: min_old_identifier - 1, old_keyword: "", favorite: 0, app_id: app_id, lang: lang)
     end
 
     render :show
   end
 
   def create
-    app_id = params[:app_id]
-    lang = params[:lang]
+    app_id = params[:app_id] || 1
+    lang = params[:lang] || "ja"
 
     keyword = params["keyword"]
     theme_id = params["theme_id"]
@@ -45,14 +40,14 @@ class RensousController < ApplicationController
     begin
       # 重複チェックに old_identifier を使用している
       rensou = Rensou.new(user_id: user_id, keyword: keyword, old_identifier: theme_id, old_keyword: old_rensou.keyword)
-      rensou.app_id = app_id if not app_id.nil?
-      rensou.lang = lang if not lang.nil?
+      rensou.app_id = app_id
+      rensou.lang = lang
       rensou.save!
     rescue ActiveRecord::StatementInvalid => e
       render nothing: true, status: 400 and return
     end
 
-    @rensous = Rensou.order(id: :desc).limit(50)
+    @rensous = Rensou.where(app_id: app_id, lang: lang).order(id: :desc).limit(50)
 
     # 通知
     user = User.find_by(id: old_rensou.user_id)
@@ -98,12 +93,12 @@ class RensousController < ApplicationController
   end
 
   def ranking
-    app_id = params[:app_id]
-    lang = params[:lang]
+    app_id = params[:app_id] || 1
+    lang = params[:lang] || "ja"
 
     relation = Rensou.all  # 最初の Relation はこれでいい？
-    relation = relation.where(app_id: app_id) if not app_id.nil?
-    relation = relation.where(lang: lang) if not lang.nil?
+    relation = relation.where(app_id: app_id)
+    relation = relation.where(lang: lang)
     @rensous = relation.order(favorite: :desc, created_at: :desc).limit(10)
 
     render :index, formats: [ :json ]
