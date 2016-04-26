@@ -1,25 +1,26 @@
 section.content-header
-  h2 アプリ
+  h2 アプリ一覧
 
 section.content
-  table
-    thead
-      tr
-        th Name
-        th Key
-        th
-        th
-        th
+  .box.box-default
+    .box-body
+      table.table.table-striped.table-bordered.table-hover
+        thead
+          tr
+            th Name
+            th Key
+            th
+            th
+            th
 
-    tbody
-      - @apps.each do |app|
-        tr
-          td = app.name
-          td = app.key
-          td = link_to 'Show', app
-          td = link_to 'Edit', edit_app_path(app)
-          td = link_to 'Destroy', app, data: {:confirm => 'Are you sure?'}, :method => :delete
+        tbody
+          - @apps.each do |app|
+            tr
+              td = app.name
+              td = app.key
+              td = link_to 'Show', app
+              td = link_to 'Edit', edit_app_path(app)
+              td = link_to 'Destroy', app, data: {:confirm => 'Are you sure?'}, :method => :delete
 
-  br
-
-  = link_to 'New App', new_app_path
+    .box-footer
+      = link_to '新規作成', new_app_path, class: "btn btn-primary"

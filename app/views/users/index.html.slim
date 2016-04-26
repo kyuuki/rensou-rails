@@ -1,18 +1,16 @@
 section.content-header
-  h2 連想一覧
+  h2 ユーザー一覧
 
 section.content
   .box.box-default
     .box-header
       = search_form_for @q, builder: SimpleForm::FormBuilder, html: { class: "form-inline" } do |f|
-        => f.input :user_id_eq, label: false, placeholder: "ユーザー ID"
+        => f.input :id_eq, label: false, placeholder: "ID"
         => f.input :app_id_eq, label: false, placeholder: "アプリ ID"
-        => f.input :lang_eq, label: false, placeholder: "言語"
-        => f.input :keyword_cont, label: false, placeholder: "連想"
         => f.submit "検索", class: "btn btn-primary"
         => link_to "クリア", url_for, class: "btn btn-primary"
 
     .box-body
-      = paginate @rensous
+      = paginate @users
       == render "list"
 

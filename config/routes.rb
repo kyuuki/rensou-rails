@@ -14,8 +14,9 @@ Rails.application.routes.draw do
   get 'rensous/ranking' => 'rensous#ranking'
 
   # 管理画面
-  root to: 'welcome#index'
+  root to: 'rensous#index'
   resources :apps
+  resources :users
   resources :rensous
 
   # The priority is based upon order of creation: first created -> highest priority.

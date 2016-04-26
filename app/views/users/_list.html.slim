@@ -1,0 +1,25 @@
+table.table.table-striped.table-bordered.table-hover
+  thead
+    tr
+       th ID
+       th device_type
+       th アプリ ID
+       th registration_token
+       th 作成日時
+
+  tbody
+    - @users.each do |user|
+      tr
+         td
+           = user.id
+         td
+           = user.device_type
+         td
+           = user.app_id
+         td
+           = truncate(user.registration_token, length: 20)
+         td
+           / なぜか config に設定した時間で出力されない。sqlite3 を使っているのが原因かも。
+           /= l user.created_at, format: :default
+           = user.created_at.in_time_zone("Asia/Tokyo").strftime("%Y/%m/%d %H:%M:%S")
+

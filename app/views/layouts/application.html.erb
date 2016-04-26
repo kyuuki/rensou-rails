@@ -11,9 +11,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.min.css">
   <%= csrf_meta_tags %>
 </head>
-<body class="skin-blue sidebar-mini" role="document">
+<body class="skin-blue fixed" role="document">
 <div class="wrapper">
   <header class="main-header">
+    <a href="/" class="logo">連想げーむ</a>
     <nav class="navbar navbar-static-top" role="navigation">
        <a class="sidebar-toggle" href="#" data-toggle="offcanvas" role="button"></a>
 
@@ -29,7 +30,7 @@
       <ul class="sidebar-menu">
         <li class="header">メニュー</li>
         <li><%= link_to "アプリ", apps_path %></li>
-        <li><%= link_to "ユーザー", root_path %></li>
+        <li><%= link_to "ユーザー", users_path %></li>
         <li><%= link_to "連想", rensous_path %></li>
       </ul>
     </section>

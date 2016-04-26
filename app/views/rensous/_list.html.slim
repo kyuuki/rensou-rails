@@ -1,5 +1,14 @@
 table.table.table-striped.table-bordered.table-hover
   thead
+    tr
+       th ID
+       th ユーザー ID
+       th アプリ ID
+       th 言語
+       th 連想
+       th 元ネタ
+       th いいね！
+       th 作成日時
 
   tbody
     - @rensous.each do |rensou|
@@ -7,7 +16,11 @@ table.table.table-striped.table-bordered.table-hover
          td
            = rensou.id
          td
-           = rensou.user_id
+           = link_to rensou.user_id, rensous_path(q: { user_id_eq: rensou.user_id })
+         td
+           = rensou.app_id
+         td
+           = rensou.lang
          td
            = rensou.keyword
          td
@@ -15,5 +28,7 @@ table.table.table-striped.table-bordered.table-hover
          td
            = rensou.favorite
          td
-           = rensou.created_at
+           / なぜか config に設定した時間で出力されない。sqlite3 を使っているのが原因かも。
+           /= l rensou.created_at, format: :default
+           = rensou.created_at.in_time_zone("Asia/Tokyo").strftime("%Y/%m/%d %H:%M:%S")
 

@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
+  # 管理画面
+  def index
+    @q = User.search(params[:q])
+    @users = @q.result.order(created_at: :desc).page params[:page]
+  end
+
+  # API
   def create
     device_type = params[:device_type]  # iOS 版の遺産
     app_id = params[:app_id]

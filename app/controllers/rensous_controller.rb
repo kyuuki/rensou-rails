@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class RensousController < ApplicationController
-  # 基本、使ってない
+  # 管理画面
   def index
     app_id = params[:app_id]
     lang = params[:lang]
@@ -8,7 +8,9 @@ class RensousController < ApplicationController
     relation = Rensou.all  # 最初の Relation はこれでいい？
     relation = relation.where(app_id: app_id) if not app_id.nil?
     relation = relation.where(lang: lang) if not lang.nil?
-    @rensous = relation.last(50)
+
+    @q = relation.search(params[:q])
+    @rensous = @q.result.order(created_at: :desc).page params[:page]
   end
 
   # API

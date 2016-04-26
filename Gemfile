@@ -64,4 +64,8 @@ group :test do
   gem 'timecop'
 end
 
+gem 'simple_form'
+gem 'kaminari'
+gem 'ransack'
+
 gem 'gcm'
