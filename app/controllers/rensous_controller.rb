@@ -97,6 +97,7 @@ class RensousController < ApplicationController
     lang = params[:lang] || "ja"
 
     relation = Rensou.all  # 最初の Relation はこれでいい？
+    relation = relation.where("created_at >= ?", Date.today.beginning_of_month)
     relation = relation.where(app_id: app_id)
     relation = relation.where(lang: lang)
     @rensous = relation.order(favorite: :desc, created_at: :desc).limit(10)
