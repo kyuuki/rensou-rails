@@ -9,12 +9,13 @@ table.table.table-striped.table-bordered.table-hover
        th 元ネタ
        th いいね！
        th 作成日時
+       th
 
   tbody
     - @rensous.each do |rensou|
       tr
          td
-           = rensou.id
+           = link_to rensou.id, "rensou/#{rensou.id}"
          td
            = link_to rensou.user_id, rensous_path(q: { user_id_eq: rensou.user_id })
          td
@@ -31,4 +32,12 @@ table.table.table-striped.table-bordered.table-hover
            / なぜか config に設定した時間で出力されない。sqlite3 を使っているのが原因かも。
            /= l rensou.created_at, format: :default
            = rensou.created_at.in_time_zone("Asia/Tokyo").strftime("%Y/%m/%d %H:%M:%S")
+         td
+           .btn-group
+             button.btn.btn-default.dropdown-toggle data-toggle="dropdown"
+               span.caret
+             ul.dropdown-menu.pull-right
+               li
+                 = link_to "削除", "rensous/#{rensou.id}", method: :delete, data: { confirm: "削除してもよいですか？" }
+
 

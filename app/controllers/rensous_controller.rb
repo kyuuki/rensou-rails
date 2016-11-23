@@ -6,6 +6,13 @@ class RensousController < ApplicationController
     @rensous = @q.result.order(created_at: :desc).page params[:page]
   end
 
+  def destroy
+    rensou = Rensou.find(params[:id])
+    rensou.destroy
+
+    redirect_to :back
+  end
+
   # API
   def latest
     app_id = params[:app_id] || 1
@@ -56,7 +63,7 @@ class RensousController < ApplicationController
       gcm = GCM.new(api_key)
       registration_tokens = [ user.registration_token ]
       # TODO: 多言語対応
-      options = { data: { message: "「#{old_rensou.keyword}」から連想されました！" }, collapse_key: "new_rensou" }
+      options = { data: { message: "「#{old_rensou.keyword}」からつながりました！" }, collapse_key: "new_rensou" }
       response = gcm.send(registration_tokens, options)
     end
 

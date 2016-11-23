@@ -4,6 +4,7 @@ table.table.table-striped.table-bordered.table-hover
        th ID
        th device_type
        th アプリ ID
+       th 投稿数
        th registration_token
        th 作成日時
 
@@ -16,6 +17,8 @@ table.table.table-striped.table-bordered.table-hover
            = user.device_type
          td
            = user.app_id
+         td
+           = user.rensous.count
          td
            = truncate(user.registration_token, length: 20)
          td
