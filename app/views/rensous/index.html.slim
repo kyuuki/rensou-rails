@@ -12,6 +12,16 @@ section.content
         => f.submit "検索", class: "btn btn-primary"
         => link_to "クリア", url_for, class: "btn btn-primary"
 
+    .box-header
+      = simple_form_for @rensou, html: { class: "form-inline" } do |f|
+        => f.input :user_id, label: false, placeholder: "ユーザー ID"
+        => f.input :keyword, label: false, placeholder: "連想"
+        => f.input :old_keyword, label: false, placeholder: "元ネタ"
+        => f.input :old_identifier, label: false, placeholder: "元ネタ ID"
+        => f.input :app_id, label: false, placeholder: "アプリ ID"
+        => f.input :lang, label: false, placeholder: "言語"
+        => f.submit "投稿", class: "btn btn-primary"
+
     .box-body
       = paginate @rensous
       == render "list"

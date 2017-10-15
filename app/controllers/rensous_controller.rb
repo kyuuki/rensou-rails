@@ -4,6 +4,18 @@ class RensousController < ApplicationController
   def index
     @q = Rensou.search(params[:q])
     @rensous = @q.result.order(created_at: :desc).page params[:page]
+
+    @rensou = Rensou.new
+    @rensou.user_id        = 1
+    unless @rensous.first.nil?
+      @rensou.old_keyword    = @rensous.first.keyword
+      @rensou.old_identifier = @rensous.first.id
+      @rensou.app_id         = @rensous.first.app_id
+      @rensou.lang           = @rensous.first.lang
+    end
+    # @rensou = Rensou.new.tap do |rensou|
+    #   ... これってかっこいい？
+    # end
   end
 
   def destroy
@@ -35,20 +47,28 @@ class RensousController < ApplicationController
   end
 
   def create
-    app_id = params[:app_id] || 1
-    lang = params[:lang] || "ja"
+    if params["keyword"].nil?
+      # 管理画面
+      rensou = Rensou.new(rensou_params)
+      old_rensou = Rensou.find(rensou.old_identifier)
+    else
+      # API
+      app_id = params[:app_id] || 1
+      lang = params[:lang] || "ja"
 
-    keyword = params["keyword"]
-    theme_id = params["theme_id"]
-    user_id = params["user_id"]
+      keyword = params["keyword"]
+      theme_id = params["theme_id"]
+      user_id = params["user_id"]
 
-    old_rensou = Rensou.find(theme_id)
+      old_rensou = Rensou.find(theme_id)
 
-    begin
-      # 重複チェックに old_identifier を使用している
       rensou = Rensou.new(user_id: user_id, keyword: keyword, old_identifier: theme_id, old_keyword: old_rensou.keyword)
       rensou.app_id = app_id
       rensou.lang = lang
+    end
+
+    begin
+      # 重複チェックに old_identifier を使用している
       rensou.save!
     rescue ActiveRecord::StatementInvalid => e
       render nothing: true, status: 400 and return
@@ -67,7 +87,13 @@ class RensousController < ApplicationController
       response = gcm.send(registration_tokens, options)
     end
 
-    render :index
+    if params["keyword"].nil?
+      # 管理画面
+      redirect_to action: :index
+    else
+      # API
+      render :index
+    end
   end
 
   def like
@@ -111,4 +137,9 @@ class RensousController < ApplicationController
 
     render :index, formats: [ :json ]
   end
+
+  private
+    def rensou_params
+      params.require(:rensou).permit(:user_id, :keyword, :old_keyword, :old_identifier, :app_id, :lang)
+    end
 end
