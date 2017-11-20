@@ -19,6 +19,16 @@ Rails.application.routes.draw do
   resources :users
   resources :rensous
 
+  # 今後、管理画面系はこちらに移行していく
+  #namespace 'admin' do  # admin ディレクトリを作ったらこっちに移行
+  scope 'admin' do
+    resources :rensous do
+      member do
+        patch 'like', to: 'rensous#admin_like'  # コントローラも将来的に別に作る
+      end
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

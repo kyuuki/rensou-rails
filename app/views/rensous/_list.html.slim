@@ -38,6 +38,7 @@ table.table.table-striped.table-bordered.table-hover
                span.caret
              ul.dropdown-menu.pull-right
                li
-                 = link_to "削除", "rensous/#{rensou.id}", method: :delete, data: { confirm: "削除してもよいですか？" }
+                 = link_to "削除", "rensous/#{rensou.id}", method: :delete, data: { confirm: "削除してもよいですか" }
+                 = link_to "いいね", "admin/rensous/#{rensou.id}/like", method: :patch
 
 

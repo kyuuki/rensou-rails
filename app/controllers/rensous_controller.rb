@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 class RensousController < ApplicationController
+  #
   # 管理画面
+  #
   def index
     @q = Rensou.search(params[:q])
     @rensous = @q.result.order(created_at: :desc).page params[:page]
@@ -21,6 +23,27 @@ class RensousController < ApplicationController
   def destroy
     rensou = Rensou.find(params[:id])
     rensou.destroy
+
+    redirect_to :back
+  end
+
+  # TODO: like と被ってるコード直す
+  def admin_like
+    id = params[:id]
+
+    rensou = Rensou.find(id)
+    rensou.update_attributes!(favorite: rensou.favorite + 1)
+
+    # 通知
+    user = User.find_by(id: rensou.user_id)
+    if (not user.nil?) and (not user.registration_token.nil?)
+      api_key = ENV['API_KEY']
+      gcm = GCM.new(api_key)
+      registration_tokens = [ user.registration_token ]
+      # TODO: 多言語対応
+      options = { data: { message: "「#{rensou.keyword}」にいいねされました！" }, collapse_key: "like" }
+      response = gcm.send(registration_tokens, options)
+    end
 
     redirect_to :back
   end
