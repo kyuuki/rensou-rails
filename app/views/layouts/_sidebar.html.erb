@@ -1,0 +1,33 @@
+<!-- Sidebar Menu -->
+<ul class="sidebar-menu" data-widget="tree">
+  <li class="header">メニュー</li>
+  <!-- Optionally, you can add icons to the links -->
+  <% if request.path_info == apps_path %>
+    <li class="active">
+  <% else %>
+    <li>
+  <% end %>
+    <%= link_to apps_path do %>
+      <i class="fa fa-circle-o text-info"></i> <span>アプリ</span>
+    <% end %>
+  </li>
+  <% if request.path_info == users_path %>
+    <li class="active">
+  <% else %>
+    <li>
+  <% end %>
+    <%= link_to users_path do %>
+      <i class="fa fa-circle-o text-warning"></i> <span>ユーザー</span>
+    <% end %>
+  </li>
+  <% if request.path_info == rensous_path %>
+    <li class="active">
+  <% else %>
+    <li>
+  <% end %>
+    <%= link_to rensous_path do %>
+      <i class="fa fa-circle-o text-danger"></i> <span>連想</span>
+    <% end %>
+  </li>
+</ul>
+<!-- /.sidebar-menu -->
