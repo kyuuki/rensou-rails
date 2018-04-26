@@ -3,25 +3,27 @@ section.content-header
 
 section.content
   .box.box-default
-    .box-header
-      = search_form_for @q, builder: SimpleForm::FormBuilder, html: { class: "form-inline" } do |f|
-        => f.input :user_id_eq, label: false, placeholder: "ユーザー ID"
-        => f.input :app_id_eq, label: false, placeholder: "アプリ ID"
-        => f.input :lang_eq, label: false, placeholder: "言語"
-        => f.input :keyword_cont, label: false, placeholder: "連想"
+    .box-body
+      = search_form_for @q, builder: SimpleForm::FormBuilder, wrapper: :inline_form, html: { class: "form-inline" } do |f|
+        => f.input :user_id_eq, placeholder: "ユーザー", input_html: { size: 3 }
+        => f.input :app_id_eq, collection: App.all, as: :select, placeholder: "アプリ ID"
+        => f.input :lang_eq, placeholder: "言語", input_html: { size: 3 }
+        => f.input :keyword_cont, placeholder: "連想"
         => f.submit "検索", class: "btn btn-primary"
         => link_to "クリア", url_for, class: "btn btn-primary"
 
-    .box-header
-      = simple_form_for @rensou, html: { class: "form-inline" } do |f|
-        => f.input :user_id, label: false, placeholder: "ユーザー ID"
-        => f.input :keyword, label: false, placeholder: "連想"
-        => f.input :old_keyword, label: false, placeholder: "元ネタ"
-        => f.input :old_identifier, label: false, placeholder: "元ネタ ID"
-        => f.input :app_id, label: false, placeholder: "アプリ ID"
-        => f.input :lang, label: false, placeholder: "言語"
+  .box.box-default
+    .box-body
+      = simple_form_for @rensou, wrapper: :inline_form, html: { class: "form-inline" } do |f|
+        => f.input :user_id, as: :string, placeholder: "ユーザー", input_html: { size: 3 } 
+        => f.input :keyword, placeholder: "連想"
+        => f.input :old_keyword, placeholder: "元ネタ"
+        => f.input :old_identifier, as: :string, placeholder: "元ネタ ID", input_html: { size: 5 }
+        => f.input :app_id, collection: App.all, placeholder: "アプリ ID"
+        => f.input :lang, placeholder: "言語", input_html: { size: 3 }
         => f.submit "投稿", class: "btn btn-primary"
 
+  .box.box-default
     .box-body
       = paginate @rensous
       == render "list"
