@@ -38,11 +38,11 @@ class RensousController < ApplicationController
     user = User.find_by(id: rensou.user_id)
     if (not user.nil?) and (not user.registration_token.nil?)
       api_key = ENV['API_KEY']
-      gcm = GCM.new(api_key)
+      fcm = FCM.new(api_key)
       registration_tokens = [ user.registration_token ]
       # TODO: 多言語対応
       options = { data: { message: "「#{rensou.keyword}」にいいねされました！" }, collapse_key: "like" }
-      response = gcm.send(registration_tokens, options)
+      response = fcm.send(registration_tokens, options)
     end
 
     redirect_to :back
@@ -103,11 +103,11 @@ class RensousController < ApplicationController
     user = User.find_by(id: old_rensou.user_id)
     if (not user.nil?) and (not user.registration_token.nil?)
       api_key = ENV['API_KEY']
-      gcm = GCM.new(api_key)
+      fcm = FCM.new(api_key)
       registration_tokens = [ user.registration_token ]
       # TODO: 多言語対応
       options = { data: { message: "「#{old_rensou.keyword}」からつながりました！" }, collapse_key: "new_rensou" }
-      response = gcm.send(registration_tokens, options)
+      response = fcm.send(registration_tokens, options)
     end
 
     if params["keyword"].nil?
@@ -129,11 +129,11 @@ class RensousController < ApplicationController
     user = User.find_by(id: rensou.user_id)
     if (not user.nil?) and (not user.registration_token.nil?)
       api_key = ENV['API_KEY']
-      gcm = GCM.new(api_key)
+      fcm = FCM.new(api_key)
       registration_tokens = [ user.registration_token ]
       # TODO: 多言語対応
       options = { data: { message: "「#{rensou.keyword}」にいいねされました！" }, collapse_key: "like" }
-      response = gcm.send(registration_tokens, options)
+      response = fcm.send(registration_tokens, options)
     end
 
     render nothing: true, status: 200

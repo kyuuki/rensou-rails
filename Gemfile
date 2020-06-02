@@ -68,4 +68,4 @@ gem 'simple_form'
 gem 'kaminari'
 gem 'ransack'
 
-gem 'gcm'
+gem 'fcm'
