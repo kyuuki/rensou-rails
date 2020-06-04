@@ -26,7 +26,7 @@ namespace :data do
     CSV.open(path, "w") do |csv|
       rensous = Rensou.all
       rensous.each do |rensou|
-        csv << [rensou.id, rensou.user_id, rensou.app_id, rensou.lang, rensou.keyword, rensou.old_identifier, rensou.old_keyword, rensou.created_at, rensou.updated_at]
+        csv << [rensou.id, rensou.user_id, rensou.app_id, rensou.lang, rensou.keyword, rensou.old_identifier, rensou.old_keyword, rensou.favorite, rensou.created_at, rensou.updated_at]
       end
     end
   end
@@ -61,16 +61,21 @@ namespace :data do
     CSV.foreach(path) do |row|
       Rensou.create(
         id: row[0],
-        user_id: row[1],
+        # 昔、iPhone 用のサーバーにつないでいたときのなごりで変に大きな user_id がある
+        user_id: (row[1].to_i == 0 || row[1].to_i > 10000) ? 1 : row[1].to_i,
         app_id: row[2],
         lang: row[3],
         keyword: row[4],
         old_identifier: row[5],
         old_keyword: row[6],
-        created_at: row[7],
-        updated_at: row[8]
+        favorite: row[7],
+        created_at: row[8],
+        updated_at: row[9]
       )
     end
+
+    # シーケンスは別途再設定する必要がある。
+    # rensou_development=> select setval (rensous_id_seq, 224413, false);
   end
 
 end
