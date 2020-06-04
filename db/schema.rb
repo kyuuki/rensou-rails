@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160424174939) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "apps", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "key"
@@ -32,9 +35,9 @@ ActiveRecord::Schema.define(version: 20160424174939) do
     t.string   "lang",           default: "ja", null: false
   end
 
-  add_index "rensous", ["app_id"], name: "index_rensous_on_app_id"
-  add_index "rensous", ["old_identifier"], name: "index_rensous_on_old_identifier", unique: true
-  add_index "rensous", ["user_id"], name: "index_rensous_on_user_id"
+  add_index "rensous", ["app_id"], name: "index_rensous_on_app_id", using: :btree
+  add_index "rensous", ["old_identifier"], name: "index_rensous_on_old_identifier", unique: true, using: :btree
+  add_index "rensous", ["user_id"], name: "index_rensous_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.integer  "device_type",                    null: false
@@ -44,6 +47,9 @@ ActiveRecord::Schema.define(version: 20160424174939) do
     t.integer  "app_id",             default: 1, null: false
   end
 
-  add_index "users", ["app_id"], name: "index_users_on_app_id"
+  add_index "users", ["app_id"], name: "index_users_on_app_id", using: :btree
 
+  add_foreign_key "rensous", "apps"
+  add_foreign_key "rensous", "users"
+  add_foreign_key "users", "apps"
 end
