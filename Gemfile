@@ -46,7 +46,6 @@ group :development do
   gem 'spring'
 end
 
-
 group :default do
   gem 'slim-rails'
 end
@@ -65,8 +64,16 @@ group :test do
   gem 'timecop'
 end
 
+gem 'dotenv-rails'
+gem 'puma', '~> 3.12'
+
 gem 'simple_form'
 gem 'kaminari'
 gem 'ransack'
 
 gem 'fcm'
+
+# https://www.y-hakopro.com/entry/ruby_version_up_decimal
+# https://qiita.com/blackpeach7/items/fb131ce9ebdb6b47beec
+gem 'bigdecimal', '1.4.2'
+
