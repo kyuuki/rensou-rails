@@ -109,10 +109,12 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.1.1)
+    nio4r (2.5.8)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     pg (0.21.0)
-    puma (3.12.6)
+    puma (4.3.11)
+      nio4r (~> 2.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.11)
@@ -236,7 +238,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   pg (~> 0.15)
-  puma (~> 3.12)
+  puma (~> 4.3)
   quiet_assets
   rails (= 4.2.8)
   ransack
