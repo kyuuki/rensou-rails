@@ -65,7 +65,7 @@ group :test do
 end
 
 gem 'dotenv-rails'
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 4.3'
 
 gem 'simple_form'
 gem 'kaminari'
